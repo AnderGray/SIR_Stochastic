@@ -1,9 +1,5 @@
 # SIR_Stochastic
 
-A repo for performing uncertainty quantification numerical experiments on SIR models.
-
-Infection Model
----
 A simple [Susceptable - Infected - Recovered](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology) (SIR) [stochatsic model](https://en.wikipedia.org/wiki/Gillespie_algorithm#Another_example:_The_SIR_epidemic_without_vital_dynamics) for epidemic modelling.
 
 This method has sometimes been called [Dynmamic Monte Carlo](https://en.wikipedia.org/wiki/Dynamic_Monte_Carlo_method), and is 
