@@ -7,21 +7,24 @@
 
 addpath("./plottingTools/")
 addpath("./Model&Tools/")
+addpath("Calibration/CalibrationData/")
 
-Npop = 10^4; InInitial = 1;
+LoadUKData;
 
-aplha = 0.7; beta =  1/20;
+Npop = Population;
+
+Simpop = 10^5; InInitial = 1;
+
+aplha = 0.1; beta =  1/1000;
 V = 1; 
 
-Tsart = 0; Tend = 50;
+Tsart = 0; Tend = TotalDays+10;
 
 Nbatches = 100;
 
-Times = linspace(Tsart,Tend,5000);
+Times = linspace(Tsart,Tend, 5000);
 
-[outSn, outIn, outRn] = SIRmc(Tsart, Tend, V, aplha, beta, Npop, InInitial,Nbatches,Times);
-
-
+[outSn, outIn, outRn] = SIRmc(Tsart, Tend, V, aplha, beta, Simpop, InInitial, Nbatches,Times, Npop);
 
 figure
 set(gcf, 'Position',  [500, 1000, 1000, 800])
@@ -31,7 +34,6 @@ p2 = plot(Times,outIn, 'r');
 p3 = plot(Times,outRn,  'b');
 
 legend('Susceptable','Infected', 'Recovered')
-xlim([0 Tend])
 
 for i=1:length(p1)
     p1(i).Color(4) = 0.6;
@@ -39,6 +41,12 @@ for i=1:length(p1)
     p3(i).Color(4) = 0.6;
 end
 
+xlim([0 Tend])
+ylim([0 5*10^4])
+
+
+plot(1:1:TotalDays,TotalDailyInfected, '*')
+plot(1:1:TotalDays, TotalDailyRecovered, '*')
 
 title("Stochastic SIR model")
 xlabel("Time [arb]")

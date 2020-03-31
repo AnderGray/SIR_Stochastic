@@ -51,10 +51,11 @@
 %       V:          Spacial parameter. Models social distancing
 %       alpha:      Infection rate parameter
 %       beta:       Recovery rate parameter
-%       Npop:       Total population
+%       Simpop:     Total simulated population
 %       INInitial:  Initial number of infected population
 %       Nbatches:   Number of times the stochastic model will be run
 %       outTpoints: Points in time to find predictions. Will interpolate at these points.
+%       Npop:       True population
 %
 %
 %       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -69,7 +70,7 @@
 %
 %%%
 
-function [outSn, outIn, outRn] = SIRmc(Tstart, Tend, V, alpha, beta, Npop, INInitial, Nbatches, outTpoints)
+function [outSn, outIn, outRn] = SIRmc(Tstart, Tend, V, alpha, beta, Simpop, INInitial, Nbatches, outTpoints, Npop)
     
     
     NumTpoints = length(outTpoints);
@@ -80,7 +81,7 @@ function [outSn, outIn, outRn] = SIRmc(Tstart, Tend, V, alpha, beta, Npop, INIni
     
     for i =1:Nbatches
         N_I = INInitial; 
-        N_S = Npop - N_I;
+        N_S = Simpop - N_I;
         N_R = 0;
 
         outSnBatch = [N_S]; outInBatch = [N_I]; 
@@ -91,7 +92,7 @@ function [outSn, outIn, outRn] = SIRmc(Tstart, Tend, V, alpha, beta, Npop, INIni
         while t < Tend
             if N_I == 0; break; end
 
-            w1 = alpha * N_S * N_I / V;         %   Rate at which infections occur
+            w1 = alpha * N_S * N_I / (V * Simpop);         %   Rate at which infections occur
             w2 = beta * N_I;                    %   Rate at which cures occur
 
             w = w1 + w2;                        %   Rate at which reactions occur
@@ -124,5 +125,9 @@ function [outSn, outIn, outRn] = SIRmc(Tstart, Tend, V, alpha, beta, Npop, INIni
         outIn(:,i) = interp1(outTsBatch,outInBatch,outTpoints, 'nearest');
     
     end
+    
+    outSn = outSn/Simpop * Npop;
+    outIn = outIn/Simpop * Npop;
+    outRn = outRn/Simpop * Npop;
     
 end
