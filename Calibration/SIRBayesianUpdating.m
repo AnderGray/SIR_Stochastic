@@ -17,7 +17,7 @@ LoadUKData;
 
 Npar = 40;
 
-Nsamples = 520;                 % Samples of the posterior
+Nsamples = 120;                 % Samples of the posterior
 NBatches = 100;                 % Samples of the stochastic model (Inner loop)
 
 Times = 0:TotalDays;            % Data is given in days. As for prediction at these days
@@ -30,8 +30,8 @@ INInitial = TotalDailyInfected(1);
 
 %% Construct prior
 
-alphaBounds = [0.05, 0.5];
-betaBounds  = [0.0001, 0.01];
+alphaBounds = [0.08, 0.3];
+betaBounds  = [0.0007, 0.02];
 %VBounds     = [50, 200];
 V = 1;
 
@@ -41,8 +41,8 @@ priorBeta  = @(x) unifpdf(x,betaBounds(1),  betaBounds(2));
 
 
 %priorPdf = @(x) priorV(x(1)) * priorAlpha(x(2)) * priorBeta(x(3)) ;  % Uniform independent prior
-priorPdf = @(x) priorAlpha(x(2)) * priorBeta(x(3)) ;  % Uniform independent prior
-
+%priorPdf = @(x) priorAlpha(x(2)) * priorBeta(x(3)) ;  % Uniform independent prior
+priorPdf = @(x) priorAlpha(x(1)) * priorBeta(x(2)) ;  % Uniform independent prior
 % sampleAlpha = @(N) unifrnd(alphaBounds(1), alphaBounds(2), N,1);
 % sampleBeta  = @(N) unifrnd(betaBounds(1),  betaBounds(2), N,1);
 % sampleV     = @(N) unifrnd(VBounds(1),     VBounds(2), N,1);
