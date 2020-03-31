@@ -1,4 +1,5 @@
 # SIR_Stochastic
+
 A simple [Susceptable - Infected - Recovered](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology) (SIR) [stochatsic model](https://en.wikipedia.org/wiki/Gillespie_algorithm#Another_example:_The_SIR_epidemic_without_vital_dynamics) for epidemic modelling.
 
 This method has sometimes been called [Dynmamic Monte Carlo](https://en.wikipedia.org/wiki/Dynamic_Monte_Carlo_method), and is 
@@ -30,4 +31,44 @@ the rate of infection.
 
 If you find that this model is too slow, we can run it in parallel, 
 implement importance sampling, or both.
+
+To try out the stochastic model: runBatchesSIR.m
+
+Uncertainty Propagation
+---
+
+Uncertainty (probability distribution) in the infection rate, recovery rate and the spacial parameter may be propagated with Monte Carlo. The Input distributions are Gaussian, but may be anything. Dependency is modelled using a gaussian [copula](https://en.wikipedia.org/wiki/Copula_(probability_theory)), which is sampled with Cholesky decomposition. You may define the correlations in terms of the partial correlations, which
+may take any value in [-1, 1], independently.
+
+Because we have both aleatory (stochastic model) and epistemic uncertainty (uknown rates),
+the output of this process will be a 2nd order distribution, a distribution of
+distributions. We will have one for every point in time. You may take the bounds of the 2nd
+order distribution and create a [p-box](https://en.wikipedia.org/wiki/Probability_box). 
+
+Running "runSIRUQ.m" will:
+
+![alt text](https://github.com/AnderGray/SIR_Stochastic/blob/master/Plots/Process.png "All samples of the 2nd order distribution of the process")
+
+Where red, blue and green are the infected, recovered and susceptable numbers respectively.
+
+All of the samples of the 2nd order distribution have been projected onto the same axis. Since a 2nd order distribution is produced, the mean will also have a distribution. The black lines is the "mean of the mean".
+
+A slice of the 2nd order distribution at a specific time may be plotted using "sliceTime.m"
+
+![alt text](https://github.com/AnderGray/SIR_Stochastic/blob/master/Plots/Infected0.7.png "2nd order distribution of Infected numbers at T= 0.7")
+
+![alt text](https://github.com/AnderGray/SIR_Stochastic/blob/master/Plots/Suceptable0.7.png "2nd order distribution of Suceptable numbers at T= 0.7")
+
+![alt text](https://github.com/AnderGray/SIR_Stochastic/blob/master/Plots/Recovered0.7.png "2nd order distribution of Recovered numbers at T= 0.7")
+
+
+Where the black lines are now the "mean distribution".
+
+You may also produce a time-lapse using "rollingPbox.m"
+
+![alt text](https://github.com/AnderGray/SIR_Stochastic/blob/master/Plots/RollingPboxQuick.gif "2nd order distribution time-lapse of Infected numbers")
+
+
+Stay home and keep coding!
+---
 
