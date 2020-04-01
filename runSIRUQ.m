@@ -23,8 +23,10 @@
 addpath("./plottingTools/")
 addpath("./Model&Tools/")
 
+Npar = 24;              % Number of parpools
 
-Nmc = 50;                 % Samples of the uncertainty(Outter loop)
+
+Nmc =100;                 % Samples of the uncertainty(Outter loop)
 NBatches = 100;           % Samples of the stochastic model (Inner loop)
 
 %%% 
@@ -32,17 +34,18 @@ NBatches = 100;           % Samples of the stochastic model (Inner loop)
 
 partCor1 = 0; partCor2 = 0; partCor3 = 0;                      % Define partial correlations
 
-CorMatrix = generateCorr(3, [partCor1, partCor2, partCor3]);   % Generates a correlation matrix
+CorMatrix = generateCorr(2, [partCor1, partCor2]);   % Generates a correlation matrix
 
 a = chol(CorMatrix,'lower');           % Cholesky decomp method for generating
-z = randn(Nmc, 3);                     % correlated random normals
+z = randn(Nmc, 2);                     % correlated random normals
 x = z * a';
 
 u = normcdf(x);                        % Samples from the Gaussian copula
 
-aplha = norminv(u(:,1), 0.2,0.005);
-beta  = norminv(u(:,2), 1,0.005);
-V     = norminv(u(:,3),100,0.1);
+aplha = norminv(u(:,1), 5,0.5);
+beta  = norminv(u(:,2), 1,0.05);
+%V     = norminv(u(:,3),100,0.1);
+V = 1;
 
 %
 %%%%
@@ -52,25 +55,24 @@ V     = norminv(u(:,3),100,0.1);
 
 numPoints = 5000;
 
-Tsart = 0; Tend = 7;
+Tsart = 0; Tend = 20;
 Times = linspace(Tsart,Tend,numPoints);
 
-Npop = 10000; InInitial = 1;
+Npop = 100000; InInitial = 1;
 
 outSn = zeros(numPoints,NBatches, Nmc);
 outIn = zeros(numPoints,NBatches, Nmc);
 outRn = zeros(numPoints,NBatches, Nmc);
 
+parpool(Npar)
 
-if ~isempty(gcp('nocreate'))        % Create parpool if not already
-    parpool(4)
-end
-
+tic;
 parfor i=1:Nmc
    
-    [outSn(:,:,i), outIn(:,:,i), outRn(:,:,i)] = SIRmc(Tsart, Tend, V(i), aplha(i), beta(i), Npop, InInitial,NBatches,Times);
+    [outSn(:,:,i), outIn(:,:,i), outRn(:,:,i)] = SIRmc(Tsart, Tend, V, aplha(i), beta(i), Npop, InInitial,NBatches,Times, 10^8);
     
 end
+toc
 
 outT = Times;
 
@@ -78,8 +80,8 @@ meanSn = mean(nanmean(outSn,3),2);
 meanIn = mean(nanmean(outIn,3),2);
 meanRn = mean(nanmean(outRn,3),2);
 
-figure
-set(gcf, 'Position',  [500, 1000, 1000, 800])
+ff = figure;
+set(gcf, 'Position',  [500, 1000, 1000, 800]);
 hold on
 
 % Plot all processes
@@ -107,12 +109,15 @@ xlabel("Time [arb]")
 ylabel("Number of people")
 set(gca,'FontName','Arial','FontSize',22);
 
+saveas(ff,'Process.png')
 
 % Plot p-box at a slice
-sliceTime(0.7,outSn,outIn,outRn,Times)
+sliceTimeSave(4,outSn,outIn,outRn,Times);
+
+save('simOut','outSn','outIn','outRn','Times')
 
 % P-box time lapse
-rollingPbox(0, outIn,Times);
+%rollingPbox(0, outIn,Times);
 
 %outInBounds = computeBounds(outIn);
 %rollingPboxBounds(0,outInBounds,outIn,Times);

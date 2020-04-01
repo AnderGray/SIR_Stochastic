@@ -8,7 +8,9 @@
 addpath("./plottingTools/")
 addpath("./Model&Tools/")
 
-Npop = 10^4; InInitial = 1;
+Npop = 10^19; 
+
+Simpop = 10^5; InInitial = 1;
 
 aplha = 0.7; beta =  1/20;
 V = 1; 
@@ -19,7 +21,7 @@ Nbatches = 100;
 
 Times = linspace(Tsart,Tend,5000);
 
-[outSn, outIn, outRn] = SIRmc(Tsart, Tend, V, aplha, beta, Npop, InInitial,Nbatches,Times);
+[outSn, outIn, outRn] = SIRmc(Tsart, Tend, V, aplha, beta, Simpop, InInitial,Nbatches,Times, Npop);
 
 
 

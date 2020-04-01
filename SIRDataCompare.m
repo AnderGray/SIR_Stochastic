@@ -13,18 +13,23 @@ LoadUKData;
 
 Npop = Population;
 
-Simpop = 10^5; InInitial = 1;
+Simpop = 10^6; InInitial = 1;
 
-aplha = 0.1; beta =  1/1000;
+aplha = 0.12; beta =  0.005;
 V = 1; 
 
 Tsart = 0; Tend = TotalDays+10;
 
-Nbatches = 100;
+Nbatches = 10;
 
 Times = linspace(Tsart,Tend, 5000);
 
+BinWidth = 0.5;
+
+tic;
+%[outSn, outIn, outRn] = SIRmcImportance(Tsart, Tend, V, aplha, beta, Simpop, InInitial, Nbatches,Times, Npop, BinWidth);
 [outSn, outIn, outRn] = SIRmc(Tsart, Tend, V, aplha, beta, Simpop, InInitial, Nbatches,Times, Npop);
+toc;
 
 figure
 set(gcf, 'Position',  [500, 1000, 1000, 800])
@@ -45,13 +50,12 @@ xlim([0 Tend])
 ylim([0 5*10^4])
 
 
-plot(1:1:TotalDays,TotalDailyInfected, '*')
-plot(1:1:TotalDays, TotalDailyRecovered, '*')
-
 title("Stochastic SIR model")
 xlabel("Time [arb]")
-ylabel("% of Population")
+ylabel("Population Numbers")
 set(gca,'FontName','Arial','FontSize',22);
 
+plot(1:1:TotalDays,TotalDailyInfected, '*')
+plot(1:1:TotalDays, TotalDailyRecovered, '*')
 
 %sliceTime(0.7,outSn,outIn,outRn,Times)

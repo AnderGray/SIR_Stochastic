@@ -14,7 +14,8 @@ set(gcf, 'Position',  [500, 1000, 1000, 800])
 
 for i= 1:100
     
-    Npop = 1000; InInitial = 1;
+    TotalPop = 10^6;
+    SimPop = 1000; InInitial = 1;
 
     aplha = 2; beta = 1;
 
@@ -23,11 +24,7 @@ for i= 1:100
     Tsart = 0; Tend = 100;
 
 
-    [outSn, outIn, outRn] = SIRmc(Tsart, Tend, V, aplha, beta, Npop, InInitial,1,outT);
-    
-    outSn = outSn./Npop;
-    outIn = outIn./Npop;
-    outRn = outRn./Npop;
+    [outSn, outIn, outRn] = SIRmc(Tsart, Tend, V, aplha, beta, Npop, InInitial,1,outT,TotalPop);
     
 
     p1 = plot(outT,outSn, 'g');
