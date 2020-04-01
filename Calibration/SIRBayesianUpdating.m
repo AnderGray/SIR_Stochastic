@@ -41,13 +41,10 @@ priorBeta  = @(x) unifpdf(x,betaBounds(1),  betaBounds(2));
 
 
 %priorPdf = @(x) priorV(x(1)) * priorAlpha(x(2)) * priorBeta(x(3)) ;  % Uniform independent prior
-<<<<<<< Updated upstream
 %priorPdf = @(x) priorAlpha(x(2)) * priorBeta(x(3)) ;  % Uniform independent prior
-priorPdf = @(x) priorAlpha(x(1)) * priorBeta(x(2)) ;  % Uniform independent prior
-=======
+
 priorPdf = @(x) priorAlpha(x(1)) * priorBeta(x(2)) ;  % Uniform independent prior
 
->>>>>>> Stashed changes
 % sampleAlpha = @(N) unifrnd(alphaBounds(1), alphaBounds(2), N,1);
 % sampleBeta  = @(N) unifrnd(betaBounds(1),  betaBounds(2), N,1);
 % sampleV     = @(N) unifrnd(VBounds(1),     VBounds(2), N,1);
