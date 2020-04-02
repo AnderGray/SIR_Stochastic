@@ -101,7 +101,11 @@ p1 = plot(outT,meanSn, 'k', 'LineWidth',3);
 p2 = plot(outT,meanIn, 'k', 'LineWidth',3);
 p3 = plot(outT,meanRn, 'k', 'LineWidth',3);
 
+ylim([0 5*10^4])
 xlim([Tsart Tend])
+
+plot(1:1:TotalDays,TotalDailyInfected, '*')
+plot(1:1:TotalDays, TotalDailyRecovered, '*')
 
 title("Stochastic SIR model")
 xlabel("Time [arb]")
