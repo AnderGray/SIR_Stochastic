@@ -68,7 +68,7 @@ parpool(Npar)
 tic;
 parfor i=1:Nmc
    
-    [outSn(:,:,i), outIn(:,:,i), outRn(:,:,i)] = SIRmc(Tsart, Tend, V, aplha(i), beta(i), Simpop, InInitial,NBatches,Times, Npop);
+    [outSn(:,:,i), outIn(:,:,i), outRn(:,:,i)] = SIRmc(Tsart, Tend, V, alpha(i), beta(i), Simpop, InInitial,NBatches,Times, Npop);
     
 end
 toc

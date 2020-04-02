@@ -3,8 +3,8 @@ qsub -r y -j y <<EOF
 #\$ -V
 #\$ -q warp.q@iru3
 #\$ -cwd
-#\$ -o output.dat
-#\$ -e error.dat
+#\$ -o outputPost.dat
+#\$ -e errorPost.dat
 #\$ -N "AG1KSamples"
 #\$ -pe smp 36
 
