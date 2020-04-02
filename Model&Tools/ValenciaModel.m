@@ -70,7 +70,7 @@
 %
 %%%
 
-function [outSn, outIn, outRn, outQn, outLn, outHn, outUn, outHUn, outFn] = ValenciaModel(Tstart, Tend, QuarentineTime, rates, InitialConditions, Nbatches, outTpoints, Simpop, Npop)
+function [outSn, outIn, outRn, outQn, outLn, outHn, outUn, outHUn, outFn] = ValenciaModel(Tstart, Tend, QuarentineTime, TauChangeTime, rates, TauChangeRates, InitialConditions, Nbatches, outTpoints, Simpop, Npop)
     
     InitialConditions = round(InitialConditions,0);
     
@@ -151,6 +151,17 @@ function [outSn, outIn, outRn, outQn, outLn, outHn, outUn, outHUn, outFn] = Vale
                 tauIn= tau;
                 deltaIn = delta;
             end
+            
+            if t >= TauChangeTime(4)
+                tauIn = TauChangeRates(4);
+            elseif t >= TauChangeTime(3)
+                tauIn = TauChangeRates(3);
+            elseif t >= TauChangeTime(2)
+                tauIn = TauChangeRates(2);
+            elseif t >= TauChangeTime(1)
+                tauIn = TauChangeRates(1);
+            end
+                    
 
             wSL = beta * N_I/Simpop * N_S;
             wSQ = deltaIn * N_S;                    

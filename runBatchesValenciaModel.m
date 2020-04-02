@@ -10,15 +10,18 @@ addpath("./Model&Tools/")
 
 Npop = 47*10^6; 
 
-Simpop = Npop; 
+Simpop = 10^5; 
 
 p1 = 5/100; p2 = 6.5/100; p3 = 4.5/100; p4 = 55/100;
 
 %[betaBefore, betaAfter, gamma1, gamma2, gamma3, alpha1, alpha2, alpha3, eta, d1, d2, delta, tau]
-rates = [0.59, 0.1, 1/5.2, p2/5.8, p3/1, (1-p1)/14, (1-p2-p3)/7, (1-p4)/14, 1/6, p2/7.5, p4/8, 70.36/100, 0.1];
+rates = [0.59, 0.59, 1/5.2, p2/5.8, p3/1, (1-p1)/14, (1-p2-p3)/7, (1-p4)/14, 1/6, p2/7.5, p4/8, 70.36/100, 0.1];
 
-Tsart = 0; Tend = 2*30;
-QuarentineT = 10000;
+Tsart = 0; Tend = 270;
+QuarentineT = 20;
+
+TauChangeTimes = [60, 90, 170,250];
+TauChangeRates = [0.5, 0.1, 1,1];
 
 Nbatches = 1;
 
@@ -36,7 +39,7 @@ Fn = 0;
 
 InInitial = [Sn, In, Rn, Qn, Ln, Hn, Un, HUn, Fn]/Npop * Simpop; 
 
-[outSn, outIn, outRn, outQn, outLn, outHn, outUn, outHUn, outFn] = SpainMC(Tsart, Tend, QuarentineT, rates, InInitial, Nbatches,Times, Simpop, Npop);
+[outSn, outIn, outRn, outQn, outLn, outHn, outUn, outHUn, outFn] = ValenciaModel(Tsart, Tend, QuarentineT,TauChangeTimes, rates,TauChangeRates, InInitial, Nbatches,Times, Simpop, Npop);
 
 
 
