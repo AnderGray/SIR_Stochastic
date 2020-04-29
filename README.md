@@ -18,9 +18,7 @@ Starting from t=0, either an infection or a recovery will occor. The time to
 one of these reactions is sampled from an exponential distribution, whose parameter
 is calculated from N_I, N_S, InfRate and CureRate. The time is stepped by the sample
 and then one of the reactions is sampled. The populations is then ajusted according
-to which reaction has occured. This is repeated until t = Tfinal or until N_I == 0.
-
-Simple!           
+to which reaction has occured. This is repeated until t = Tfinal or until N_I == 0.      
 
 Because this is a stochastic simulation, the entire simulation may be re-run (batched)
 a number of times calculating the variation due to the stochasticity.
